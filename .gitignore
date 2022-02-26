@@ -33,5 +33,10 @@ obj
 *.exe
 *.out
 *.app
+
+# Visual Studio
 *.csproj.user
 *.suo
+
+#Visual Studio Code
+.vs
