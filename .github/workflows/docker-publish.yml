@@ -33,10 +33,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
+      - name: Print env var 
+        run: echo Env Image $env:IMAGE_NAME            
+        
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
         
-  # Second job (Should happend after the previous one is completd)
+  # Second job (It should happen after the previous one is completed)
   deploy:
   
     # The type of runner that the job will run on
