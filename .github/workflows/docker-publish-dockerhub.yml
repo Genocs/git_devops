@@ -2,11 +2,11 @@ name: Build and deploy Docker Image on Docker Hub
 
 on:
   push:
-    branches: [main]
+    branches: [development]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
   pull_request:
-    branches: [main]
+    branches: [development]
 
   release:
     types: [published]
@@ -15,7 +15,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: genocs/my_image
+  IMAGE_NAME: genocs/git_devops
 
 
 jobs:
