@@ -2,11 +2,11 @@ name: Build and deploy Docker Image on GitHub
 
 on:
   push:
-    branches: [main]
+    branches: [development]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
   pull_request:
-    branches: [main]
+    branches: [development]
 
 env:
   # Use docker.io for Docker Hub if empty

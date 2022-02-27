@@ -2,11 +2,11 @@ name: Build and deploy Docker Image on Docker Hub
 
 on:
   push:
-    branches: [development]
+    branches: [main]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
   pull_request:
-    branches: [development]
+    branches: [main]
 
   release:
     types: [published]
