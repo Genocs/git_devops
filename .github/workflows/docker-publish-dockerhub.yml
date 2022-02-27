@@ -2,15 +2,14 @@ name: Build and deploy Docker Image on Docker Hub
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: ["v*.*.*"]
   pull_request:
-    branches: [ main ]
-    
+    branches: [main]
+
   release:
     types: [published]
-
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -18,12 +17,11 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   build:
-
+    name: Build Docker Image
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       packages: write
@@ -34,38 +32,38 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
-      - name: Print env var 
-        run: echo Env Image $IMAGE_NAME            
-        
+
+      - name: Print env var
+        run: echo Env Image $IMAGE_NAME
+
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-        
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME:$(date +%s)
+
   # Second job (It should happen after the previous one is completed)
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker Image to Docker Hub
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      
+
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: genocs/git_test
-      
+          images: $IMAGE_NAME:1.0.0
+
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }} 
-      
+          labels: ${{ steps.meta.outputs.labels }}
