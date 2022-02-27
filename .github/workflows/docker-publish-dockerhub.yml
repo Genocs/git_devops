@@ -38,7 +38,7 @@ jobs:
         run: echo Env Image $IMAGE_NAME
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME:$(date +%s)
+        run: docker build . --file Dockerfile.api --tag $IMAGE_NAME:$(date +%s)
 
   # Second job (It should happen after the previous one is completed)
   push_to_registry:
